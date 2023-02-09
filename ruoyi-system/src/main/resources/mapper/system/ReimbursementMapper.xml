@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ReimbursementMapper">
+    
+    <resultMap type="Reimbursement" id="ReimbursementResult">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="timeBegin"    column="time_begin"    />
+        <result property="timeEnd"    column="time_end"    />
+        <result property="days"    column="days"    />
+        <result property="remake"    column="remake"    />
+        <result property="timeReimbursement"    column="time_reimbursement"    />
+        <result property="amountSubsidy"    column="amount_subsidy"    />
+        <result property="amountAll"    column="amount_all"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="approval"    column="approval"    />
+    </resultMap>
+
+    <sql id="selectReimbursementVo">
+        select id, user_name, time_begin, time_end, days, remake, time_reimbursement, amount_subsidy, amount_all, create_by, create_time, update_by, update_time,approval from reimbursement
+    </sql>
+
+    <select id="selectReimbursementList" parameterType="Reimbursement" resultMap="ReimbursementResult">
+        <include refid="selectReimbursementVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
+            <if test="timeBegin != null "> and time_begin = #{timeBegin}</if>
+            <if test="timeEnd != null "> and time_end = #{timeEnd}</if>
+            <if test="days != null "> and days = #{days}</if>
+            <if test="remake != null  and remake != ''"> and remake = #{remake}</if>
+            <if test="timeReimbursement != null "> and time_reimbursement = #{timeReimbursement}</if>
+            <if test="amountSubsidy != null "> and amount_subsidy = #{amountSubsidy}</if>
+            <if test="amountAll != null "> and amount_all = #{amountAll}</if>
+            <if test="approval != null "> and approval = #{approval}</if>
+        </where>
+    </select>
+    
+    <select id="selectReimbursementById" parameterType="String" resultMap="ReimbursementResult">
+        <include refid="selectReimbursementVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertReimbursement" parameterType="Reimbursement" useGeneratedKeys="true" keyProperty="id">
+        insert into reimbursement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="timeBegin != null">time_begin,</if>
+            <if test="timeEnd != null">time_end,</if>
+            <if test="days != null">days,</if>
+            <if test="remake != null">remake,</if>
+            <if test="timeReimbursement != null">time_reimbursement,</if>
+            <if test="amountSubsidy != null">amount_subsidy,</if>
+            <if test="amountAll != null">amount_all,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="approval != null">approval,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="timeBegin != null">#{timeBegin},</if>
+            <if test="timeEnd != null">#{timeEnd},</if>
+            <if test="days != null">#{days},</if>
+            <if test="remake != null">#{remake},</if>
+            <if test="timeReimbursement != null">#{timeReimbursement},</if>
+            <if test="amountSubsidy != null">#{amountSubsidy},</if>
+            <if test="amountAll != null">#{amountAll},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="approval != null">#{approval},</if>
+         </trim>
+    </insert>
+
+    <update id="updateReimbursement" parameterType="Reimbursement">
+        update reimbursement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="timeBegin != null">time_begin = #{timeBegin},</if>
+            <if test="timeEnd != null">time_end = #{timeEnd},</if>
+            <if test="days != null">days = #{days},</if>
+            <if test="remake != null">remake = #{remake},</if>
+            <if test="timeReimbursement != null">time_reimbursement = #{timeReimbursement},</if>
+            <if test="amountSubsidy != null">amount_subsidy = #{amountSubsidy},</if>
+            <if test="amountAll != null">amount_all = #{amountAll},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="approval != null">approval = #{approval},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteReimbursementById" parameterType="String">
+        delete from reimbursement where id = #{id}
+    </delete>
+
+    <delete id="deleteReimbursementByIds" parameterType="String">
+        delete from reimbursement where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectCommonBackCount" parameterType="Reimbursement" resultType="int">
+        select count(*) from reimbursement where user_name = #{userName} and approval >= 4
+    </select>
+</mapper>

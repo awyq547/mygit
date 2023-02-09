@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TicketMapper">
+    
+    <resultMap type="Ticket" id="TicketResult">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="placeBegin"    column="place_begin"    />
+        <result property="placeEnd"    column="place_end"    />
+        <result property="timeBegin"    column="time_begin"    />
+        <result property="timeEnd"    column="time_end"    />
+        <result property="vehicle"    column="vehicle"    />
+        <result property="totalAmount"    column="total_amount"    />
+        <result property="explain"    column="explain"    />
+        <result property="type"    column="type"    />
+        <result property="imgTag"    column="img_tag"    />
+        <result property="img"    column="img"    />
+        <result property="travelId"    column="travel_id"    />
+        <result property="amount"    column="amount"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="travelType"    column="travel_type"    />
+    </resultMap>
+
+    <sql id="selectTicketVo">
+        select id, user_name, place_begin, place_end, time_begin, time_end, vehicle, total_amount, `explain`, img_tag, img, travel_id, amount, create_by, create_time, update_by, update_time, remark,travel_type from ticket
+    </sql>
+
+    <select id="selectTicketList" parameterType="Ticket" resultMap="TicketResult">
+        <include refid="selectTicketVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
+            <if test="placeBegin != null  and placeBegin != ''"> and place_begin = #{placeBegin}</if>
+            <if test="placeEnd != null  and placeEnd != ''"> and place_end = #{placeEnd}</if>
+            <if test="timeBegin != null "> and time_begin = #{timeBegin}</if>
+            <if test="timeEnd != null "> and time_end = #{timeEnd}</if>
+            <if test="vehicle != null  and vehicle != ''"> and vehicle = #{vehicle}</if>
+            <if test="totalAmount != null "> and total_amount = #{totalAmount}</if>
+            <if test="explain != null  and explain != ''"> and `explain` = #{explain}</if>
+            <if test="imgTag != null  and imgTag != ''"> and img_tag = #{imgTag}</if>
+            <if test="img != null  and img != ''"> and img = #{img}</if>
+            <if test="travelId != null "> and travel_id = #{travelId}</if>
+            <if test="travelType != null  and travelType != ''"> and travel_type = #{travelType}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
+        </where>
+    </select>
+    
+    <select id="selectTicketById" parameterType="Long" resultMap="TicketResult">
+        <include refid="selectTicketVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTicket" parameterType="Ticket" useGeneratedKeys="true" keyProperty="id">
+        insert into ticket
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">user_name,</if>
+            <if test="placeBegin != null">place_begin,</if>
+            <if test="placeEnd != null">place_end,</if>
+            <if test="timeBegin != null">`time_begin`,</if>
+            <if test="timeEnd != null">`time_end`,</if>
+
+            <if test="travelType != null">travel_type,</if>
+            <if test="vehicle != null">vehicle,</if>
+            <if test="totalAmount != null">total_amount,</if>
+            <if test="explain != null">`explain`,</if>
+            <if test="imgTag != null">img_tag,</if>
+            <if test="img != null">img,</if>
+            <if test="travelId != null">travel_id,</if>
+            <if test="amount != null">amount,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">#{userName},</if>
+            <if test="placeBegin != null">#{placeBegin},</if>
+            <if test="placeEnd != null">#{placeEnd},</if>
+            <if test="timeBegin != null">#{timeBegin},</if>
+            <if test="timeEnd != null">#{timeEnd},</if>
+
+            <if test="travelType != null">#{travelType},</if>
+            <if test="vehicle != null">#{vehicle},</if>
+
+            <if test="totalAmount != null">#{totalAmount},</if>
+            <if test="explain != null">#{explain},</if>
+            <if test="imgTag != null">#{imgTag},</if>
+            <if test="img != null">#{img},</if>
+            <if test="travelId != null">#{travelId},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTicket" parameterType="Ticket">
+        update ticket
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="placeBegin != null">place_begin = #{placeBegin},</if>
+            <if test="placeEnd != null">place_end = #{placeEnd},</if>
+            <if test="timeBegin != null">time_begin = #{timeBegin},</if>
+            <if test="timeEnd != null">time_end = #{timeEnd},</if>
+            <if test="vehicle != null">vehicle = #{vehicle},</if>
+            <if test="totalAmount != null">total_amount = #{totalAmount},</if>
+            <if test="explain != null">`explain` = #{explain},</if>
+            <if test="travelType != null">travel_type = #{travelType},</if>
+            <if test="imgTag != null">img_tag = #{imgTag},</if>
+            <if test="img != null">img = #{img},</if>
+            <if test="travelId != null">travel_id = #{travelId},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTicketById" parameterType="Long">
+        delete from ticket where id = #{id}
+    </delete>
+
+    <delete id="deleteTicketByIds" parameterType="String">
+        delete from ticket where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="resetCheckTicket" parameterType="String">
+        update ticket set travel_id = '-1' where travel_id = #{id}
+    </update>
+</mapper>
